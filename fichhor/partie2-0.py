@@ -61,7 +61,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
             df_subset = df_subset.rename(columns={'temp': nom_colonne})
             df_subset = pd.concat([ df_subset, pd.DataFrame([{"Référentiel": "Total", nom_colonne: total}])], ignore_index=True)
             nom_fichier_sortie = nom_fichier.split('.')[0] + f"_{nom_colonne}.xlsx"
-            df_subset.to_excel(nom_fichier_sortie, index=False)
+            df_subset.to_excel(nom_fichier_sortie, index=False, sheet_name='Feuil1')
             ajuster_largeur_colonnes(nom_fichier_sortie)
             print("Le fichier Excel de sortie a été créé avec succès :", nom_fichier_sortie)
             generaltot += total
@@ -71,7 +71,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
         df_total = df_code[['Référentiel']]
         df_total = df_total.assign(total=general)
         df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "Total", "Total": generaltot}])], ignore_index=True)
-        df_total.to_excel("fichier_total.xlsx", index=False)
+        df_total.to_excel("fichier_total.xlsx", index=False, sheet_name='Feuil1')
         ajuster_largeur_colonnes("fichier_total.xlsx")
         print("Les données ont été écrites avec succès dans les fichiers Excel de destination.")
     except Exception as e:
