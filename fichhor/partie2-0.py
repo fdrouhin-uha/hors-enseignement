@@ -64,10 +64,12 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
             df_subset.to_excel(nom_fichier_sortie, index=False, sheet_name='Feuil1')
             ajuster_largeur_colonnes(nom_fichier_sortie)
             print("Le fichier Excel de sortie a été créé avec succès :", nom_fichier_sortie)
+
             generaltot += total
             i=0
             total = 0
             retour=[]
+            
         df_total = df_code[['Référentiel']]
         df_total = df_total.assign(total=general)
         df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "Total", "Total": generaltot}])], ignore_index=True)
