@@ -55,7 +55,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
                 else:
                     retour.append(0)
                 i+=1
-                
+
             df_subset = df_code[['Référentiel']]
             df_subset = df_subset.assign(temp=retour)
             df_subset = df_subset.rename(columns={'temp': nom_colonne})
@@ -78,16 +78,16 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
        print("Une erreur s'est produite lors de l'écriture des fichiers de sortie :", str(e))
 
 
-fichier_ens = "D:/zCour/stage/premier_test/fichor_sortie.xlsx"
-feuille_entree_ens = "Sheet1"
-df_coeficien = lire_fichier_entree(fichier_ens, feuille_entree_ens)
+fichier_coef = "D:/zCour/stage/premier_test/fichor_sortie.xlsx"
+feuille_coef = "Sheet1"
+df_coeficien = lire_fichier_entree(fichier_coef, feuille_coef)
 
 
-nom_fichier_entree = "D:/zCour/stage/premier_test/fichor_ens_sortie.xlsx" 
-feuille_entree = "Sheet1"  
-df_entree = lire_fichier_entree(nom_fichier_entree, feuille_entree)
+fichier_ens = "D:/zCour/stage/premier_test/fichor_ens_sortie.xlsx" 
+feuille_ens = "Sheet1"  
+df_ens = lire_fichier_entree(fichier_ens, feuille_ens)
 
 
-if df_entree is not None:
-    nom_fichier_horaire = "fichor_sortie.xlsx"
-    ecrire_fichier_sortie(df_entree, df_coeficien, nom_fichier_horaire)
+if df_ens is not None:
+    fichier_horaire = "fichor_sortie.xlsx"
+    ecrire_fichier_sortie(df_ens, df_coeficien, fichier_horaire)
