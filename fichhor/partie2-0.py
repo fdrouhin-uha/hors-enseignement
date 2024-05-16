@@ -40,8 +40,8 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
         general = []
         generaltot = 0
         for index, row in df_coef.iterrows():
-                temp=row["Nombre d'heures équivalent TD"]
-                coef.append(temp)
+            temp=row["Nombre d'heures équivalent TD"]
+            coef.append(temp)
         for y in range(len(coef)):
             general.append(0)
         for nom_colonne in df_code.columns[1:]:
@@ -55,7 +55,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
                 else:
                     retour.append(0)
                 i+=1
-
+                
             df_subset = df_code[['Référentiel']]
             df_subset = df_subset.assign(temp=retour)
             df_subset = df_subset.rename(columns={'temp': nom_colonne})
