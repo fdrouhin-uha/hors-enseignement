@@ -2,6 +2,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.utils import  get_column_letter
 
+
 def lire_fichier_entree(nom_fichier, feuille):
     try:
         df = pd.read_excel(nom_fichier, sheet_name=feuille)
@@ -9,6 +10,7 @@ def lire_fichier_entree(nom_fichier, feuille):
     except Exception as e:
         print("Une erreur s'est produite lors de la lecture du fichier d'entrée :", str(e))
         return None
+
 
 def ecrire_fichier_sortie(df_code, df_ens, nom_fichier, nom_fich_ens):
     try:
@@ -66,6 +68,7 @@ def ecrire_fichier_sortie(df_code, df_ens, nom_fichier, nom_fich_ens):
     except Exception as e:
         print("Une erreur s'est produite lors de l'écriture du fichier de sortie :", str(e))
 
+
 def cree_ens(nouveau_df):
     try:
         data = {}
@@ -83,6 +86,7 @@ def cree_ens(nouveau_df):
         return data
     except Exception as e:
         print("Une erreur s'est produite lors de la creation du fichier enseignants", str(e))
+
 
 def ajuster_largeur_colonnes(nom_fichier):
     try:
