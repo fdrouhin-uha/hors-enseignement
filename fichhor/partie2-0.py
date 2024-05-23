@@ -39,11 +39,13 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
         total=0
         general = []
         generaltot = 0
+        general_sans_coef=[]
         for index, row in df_coef.iterrows():
             temp=row["Nombre d'heures équivalent TD"]
             coef.append(temp)
         for y in range(len(coef)):
             general.append(0)
+            general_sans_coef.append(0)
         for nom_colonne in df_code.columns[1:]:
             df_subset = df_code[['Référentiel', nom_colonne]]
             for index, row in df_subset.iterrows():
@@ -52,6 +54,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
                     retour.append(ligne*coef[i])
                     total += ligne*coef[i]
                     general[i] += ligne*coef[i]
+                    general_sans_coef[i] += ligne
                 else:
                     retour.append(0)
                 i+=1
@@ -72,7 +75,8 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
             
         df_total = df_code[['Référentiel']]
         df_total = df_total.assign(total=general)
-        df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "Total", "Total": generaltot}])], ignore_index=True)
+        df_total = df_total.assign(Total=general_sans_coef)
+        df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "total", "total": generaltot}])], ignore_index=True)
         df_total.to_excel("fichier_total.xlsx", index=False, sheet_name='Feuil1')
         ajuster_largeur_colonnes("fichier_total.xlsx")
         print("Les données ont été écrites avec succès dans les fichiers Excel de destination.")
