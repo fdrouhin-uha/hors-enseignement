@@ -85,12 +85,12 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
 
 
 fichier_coef = "D:/zCour/stage/premier_test/fichor_sortie.xlsx"
-feuille_coef = "Sheet1"
+feuille_coef = "Feuil1"
 df_coeficien = lire_fichier_entree(fichier_coef, feuille_coef)
 
 
 fichier_ens = "D:/zCour/stage/premier_test/fichor_ens_sortie.xlsx" 
-feuille_ens = "Sheet1"  
+feuille_ens = "Feuil1"  
 df_ens = lire_fichier_entree(fichier_ens, feuille_ens)
 
 
