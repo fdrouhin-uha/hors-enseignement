@@ -1,6 +1,7 @@
 import pandas as pd
 from openpyxl import load_workbook
 import argparse
+import os
 
 def lire_fichier_entree(nom_fichier, feuille):
     try:
@@ -99,6 +100,13 @@ def main():
     parser.add_argument('-e', '--enseignants', required=True, help="Chemin du fichier de liste d'enseignants")
     args = parser.parse_args()
 
+    # Définir un chemin par défaut pour le dossier de sortie
+    output_dir = "sortie/referenciel"
+
+    # Créer le dossier de sortie s'il n'existe pas
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     fichier_ens = args.enseignants
     feuille_entree_ens = "Feuil1"
     df_ens = lire_fichier_entree(fichier_ens, feuille_entree_ens)
@@ -108,8 +116,8 @@ def main():
     df_entree = lire_fichier_entree(nom_fichier_entree, feuille_entree)
 
     if df_entree is not None:
-        nom_fichier_horaire = "sortie/fichor_sortie.xlsx"
-        nom_fichier_horaire_ens = "fichor_ens_sortie.xlsx"
+        nom_fichier_horaire = os.path.join(output_dir, "fichor_sortie.xlsx")
+        nom_fichier_horaire_ens = os.path.join(output_dir, "fichor_ens_sortie.xlsx")
         ecrire_fichier_sortie(df_entree, df_ens, nom_fichier_horaire, nom_fichier_horaire_ens)
 
 if __name__ == "__main__":
