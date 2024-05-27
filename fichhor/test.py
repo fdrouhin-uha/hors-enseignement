@@ -78,7 +78,7 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
         df_total = df_total.assign(total=general)
         df_total = df_total.assign(Total=general_sans_coef)
         df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "total", "total": generaltot}])], ignore_index=True)
-        df_total.to_excel("fichier_total.xlsx", index=False, sheet_name='Feuil1')
+        df_total.to_excel("sortie/enseignant/fichier_total.xlsx", index=False, sheet_name='Feuil1')
         ajuster_largeur_colonnes("fichier_total.xlsx")
         print("Les données ont été écrites avec succès dans les fichiers Excel de destination.")
     except Exception as e:
@@ -98,15 +98,15 @@ def main():
 
     fichier_refenciel = args.referenciel
     feuille_entree_ref= "Feuil1"
-    df_ens = lire_fichier_entree(fichier_refenciel, feuille_entree_ref)
+    df_ref = lire_fichier_entree(fichier_refenciel, feuille_entree_ref)
 
     nom_fichier_ens = args.enseignants
     feuille_entree = "Feuil1"
-    df_entree = lire_fichier_entree(nom_fichier_ens, feuille_entree)
+    df_ens = lire_fichier_entree(nom_fichier_ens, feuille_entree)
 
-    if df_entree is not None:
+    if df_ens is not None:
         nom_fichier = os.path.join(output_dir, "fichier_total.xlsx")
-        ecrire_fichier_sortie(df_ens, df_entree, nom_fichier)
+        ecrire_fichier_sortie(df_ens, df_ref, nom_fichier)
   
 if __name__ == "__main__":
     main()
