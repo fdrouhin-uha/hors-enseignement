@@ -97,20 +97,24 @@ def ajuster_largeur_colonnes(nom_fichier):
 def main():
     parser = argparse.ArgumentParser(description="Traitement des fichiers de code étape et liste d'enseignants.")
     parser.add_argument('-c', '--code_etape', required=True, help="Chemin du fichier de code étape")
+    parser.add_argument('-fc', '--feuille_code', default='Feuil1', help="Nom de la feuille du fichier de code étape (par défaut: Feuil1)")
     parser.add_argument('-e', '--enseignants', required=True, help="Chemin du fichier de liste d'enseignants")
+    parser.add_argument('-fe', '--feuille_ens', default='Feuil1', help="Nom de la feuille du fichier de liste d'enseignants (par défaut: Feuil1)")
     args = parser.parse_args()
 
+    # Définir un chemin par défaut pour le dossier de sortie
     output_dir = "sortie/referenciel"
 
+    # Créer le dossier de sortie s'il n'existe pas
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     fichier_ens = args.enseignants
-    feuille_entree_ens = "Feuil1"
+    feuille_entree_ens = args.feuille_ens
     df_ens = lire_fichier_entree(fichier_ens, feuille_entree_ens)
 
     nom_fichier_entree = args.code_etape
-    feuille_entree = "Feuil1"
+    feuille_entree = args.feuille_code
     df_entree = lire_fichier_entree(nom_fichier_entree, feuille_entree)
 
     if df_entree is not None:
