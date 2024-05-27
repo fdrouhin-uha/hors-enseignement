@@ -100,10 +100,8 @@ def main():
     parser.add_argument('-e', '--enseignants', required=True, help="Chemin du fichier de liste d'enseignants")
     args = parser.parse_args()
 
-    # Définir un chemin par défaut pour le dossier de sortie
     output_dir = "sortie/referenciel"
 
-    # Créer le dossier de sortie s'il n'existe pas
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
