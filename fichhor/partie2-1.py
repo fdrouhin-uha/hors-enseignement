@@ -84,12 +84,37 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
     except Exception as e:
        print("Une erreur s'est produite lors de l'écriture des fichiers de sortie :", str(e))
 
-
 def main():
     parser = argparse.ArgumentParser(description="Traitement des fichiers de code étape et liste d'enseignants.")
     parser.add_argument('-r', '--referenciel', required=True, help="Chemin du fichier de code étape")
     parser.add_argument('-e', '--enseignants', required=True, help="Chemin du fichier de liste d'enseignants")
+    parser.add_argument('-fr', '--feuille_ref', default='Feuil1', help="Nom de la feuille du fichier de code étape (par défaut: Feuil1)")
+    parser.add_argument('-fe', '--feuille_ens', default='Feuil1', help="Nom de la feuille du fichier de liste d'enseignants (par défaut: Feuil1)")
     args = parser.parse_args()
+
+    # Définir un chemin par défaut pour le dossier de sortie
+    output_dir = "sortie/enseignant"
+
+    # Créer le dossier de sortie s'il n'existe pas
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    fichier_refenciel = args.referenciel
+    feuille_entree_ens = args.feuille_ens
+    df_ref = lire_fichier_entree(fichier_refenciel, feuille_entree_ref)
+
+    nom_fichier_ens = args.enseignants
+    feuille_entree = args.feuille_code
+    df_ens = lire_fichier_entree(nom_fichier_ens, feuille_entree)
+
+    if df_ens is not None:
+        nom_fichier = os.path.join(output_dir, "fichier_total.xlsx")
+        ecrire_fichier_sortie(df_ens, df_ref, nom_fichier)
+
+if __name__ == "__main__":
+    main()
+
+
 
     output_dir = "sortie/enseignant"
 
