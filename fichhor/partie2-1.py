@@ -85,13 +85,13 @@ def ecrire_fichier_sortie(df_code, df_coef,nom_fichier):
        print("Une erreur s'est produite lors de l'écriture des fichiers de sortie :", str(e))
 
 def main():
-    parser = argparse.ArgumentParser(description="Traitement des fichiers de code étape et liste d'enseignants.")
-    parser.add_argument('-r', '--referenciel', required=True, help="Chemin du fichier de code étape")
+    parser = argparse.ArgumentParser(description="Traitement des fichiers de referenciel et liste d'enseignants.")
+    parser.add_argument('-r', '--referenciel', required=True, help="Chemin du fichier de referenciel")
     parser.add_argument('-e', '--enseignants', required=True, help="Chemin du fichier de liste d'enseignants")
-    parser.add_argument('-fr', '--feuille_ref', default='Feuil1', help="Nom de la feuille du fichier de code étape (par défaut: Feuil1)")
+    parser.add_argument('-fr', '--feuille_ref', default='Feuil1', help="Nom de la feuille du fichier de referenciel (par défaut: Feuil1)")
     parser.add_argument('-fe', '--feuille_ens', default='Feuil1', help="Nom de la feuille du fichier de liste d'enseignants (par défaut: Feuil1)")
     args = parser.parse_args()
-    
+
     output_dir = "sortie/enseignant"
 
     if not os.path.exists(output_dir):
