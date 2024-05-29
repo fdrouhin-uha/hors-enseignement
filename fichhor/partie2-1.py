@@ -91,31 +91,7 @@ def main():
     parser.add_argument('-fr', '--feuille_ref', default='Feuil1', help="Nom de la feuille du fichier de code étape (par défaut: Feuil1)")
     parser.add_argument('-fe', '--feuille_ens', default='Feuil1', help="Nom de la feuille du fichier de liste d'enseignants (par défaut: Feuil1)")
     args = parser.parse_args()
-
-    # Définir un chemin par défaut pour le dossier de sortie
-    output_dir = "sortie/enseignant"
-
-    # Créer le dossier de sortie s'il n'existe pas
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    fichier_refenciel = args.referenciel
-    feuille_entree_ens = args.feuille_ens
-    df_ref = lire_fichier_entree(fichier_refenciel, feuille_entree_ref)
-
-    nom_fichier_ens = args.enseignants
-    feuille_entree = args.feuille_code
-    df_ens = lire_fichier_entree(nom_fichier_ens, feuille_entree)
-
-    if df_ens is not None:
-        nom_fichier = os.path.join(output_dir, "fichier_total.xlsx")
-        ecrire_fichier_sortie(df_ens, df_ref, nom_fichier)
-
-if __name__ == "__main__":
-    main()
-
-
-
+    
     output_dir = "sortie/enseignant"
 
     if not os.path.exists(output_dir):
