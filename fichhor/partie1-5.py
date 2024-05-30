@@ -11,11 +11,9 @@ class MainWindow(QWidget):
         
     def initUI(self):
         self.setWindowTitle('Traitement des fichiers de code étape et liste d\'enseignants')
-        
 
         layout = QVBoxLayout()
-        
-        
+
         self.code_etape_layout = QHBoxLayout()
         self.code_etape_label = QLabel('Fichier de code étape:')
         self.code_etape_edit = QLineEdit()
@@ -26,7 +24,6 @@ class MainWindow(QWidget):
         self.code_etape_layout.addWidget(self.code_etape_button)
         layout.addLayout(self.code_etape_layout)
 
-        
         self.feuille_code_layout = QHBoxLayout()
         self.feuille_code_label = QLabel('Feuille de code étape:')
         self.feuille_code_edit = QLineEdit('Feuil1')
@@ -34,7 +31,6 @@ class MainWindow(QWidget):
         self.feuille_code_layout.addWidget(self.feuille_code_edit)
         layout.addLayout(self.feuille_code_layout)
         
-    
         self.enseignants_layout = QHBoxLayout()
         self.enseignants_label = QLabel('Fichier de liste d\'enseignants:')
         self.enseignants_edit = QLineEdit()
@@ -45,7 +41,6 @@ class MainWindow(QWidget):
         self.enseignants_layout.addWidget(self.enseignants_button)
         layout.addLayout(self.enseignants_layout)
 
-        
         self.feuille_ens_layout = QHBoxLayout()
         self.feuille_ens_label = QLabel('Feuille de liste d\'enseignants:')
         self.feuille_ens_edit = QLineEdit('Feuil1')
@@ -53,7 +48,17 @@ class MainWindow(QWidget):
         self.feuille_ens_layout.addWidget(self.feuille_ens_edit)
         layout.addLayout(self.feuille_ens_layout)
 
-        
+        # Ligne pour sélectionner le dossier de sortie
+        self.dossier_sortie_layout = QHBoxLayout()
+        self.dossier_sortie_label = QLabel('Dossier de sortie:')
+        self.dossier_sortie_edit = QLineEdit()
+        self.dossier_sortie_button = QPushButton('Parcourir...')
+        self.dossier_sortie_button.clicked.connect(self.browse_dossier_sortie)
+        self.dossier_sortie_layout.addWidget(self.dossier_sortie_label)
+        self.dossier_sortie_layout.addWidget(self.dossier_sortie_edit)
+        self.dossier_sortie_layout.addWidget(self.dossier_sortie_button)
+        layout.addLayout(self.dossier_sortie_layout)
+
         self.run_button = QPushButton('Exécuter')
         self.run_button.clicked.connect(self.run_processing)
         layout.addWidget(self.run_button)
@@ -71,27 +76,39 @@ class MainWindow(QWidget):
         fileName, _ = QFileDialog.getOpenFileName(self, "Sélectionner le fichier de liste d'enseignants", "", "Excel Files (*.xlsx);;All Files (*)", options=options)
         if fileName:
             self.enseignants_edit.setText(fileName)
+
+    def browse_dossier_sortie(self):
+        options = QFileDialog.Options()
+        folder = QFileDialog.getExistingDirectory(self, "Sélectionner le dossier de sortie", options=options)
+        if folder:
+            self.dossier_sortie_edit.setText(folder)
     
     def run_processing(self):
         code_etape_file = self.code_etape_edit.text()
         feuille_code = self.feuille_code_edit.text()
         enseignants_file = self.enseignants_edit.text()
         feuille_ens = self.feuille_ens_edit.text()
+        dossier_sortie = self.dossier_sortie_edit.text()
 
         if not os.path.exists(code_etape_file) or not os.path.exists(enseignants_file):
             QMessageBox.critical(self, "Erreur", "Veuillez sélectionner des fichiers valides.")
             return
 
-        output_dir = "sortie/referenciel"
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+        if not dossier_sortie:
+            dossier_sortie = "sortie/referenciel"
+        else:
+            dossier_sortie = dossier_sortie+"/referenciel"
+
+        if not os.path.exists(dossier_sortie):
+            
+            os.makedirs(dossier_sortie)
 
         df_ens = lire_fichier_entree(enseignants_file, feuille_ens)
         df_entree = lire_fichier_entree(code_etape_file, feuille_code)
 
         if df_entree is not None:
-            nom_fichier_horaire = os.path.join(output_dir, "fichor_sortie.xlsx")
-            nom_fichier_horaire_ens = os.path.join(output_dir, "fichor_ens_sortie.xlsx")
+            nom_fichier_horaire = os.path.join(dossier_sortie, "fichor_sortie.xlsx")
+            nom_fichier_horaire_ens = os.path.join(dossier_sortie, "fichor_ens_sortie.xlsx")
             ecrire_fichier_sortie(df_entree, df_ens, nom_fichier_horaire, nom_fichier_horaire_ens)
 
         QMessageBox.information(self, "Terminé", "Le traitement a été effectué avec succès.")
