@@ -1,6 +1,6 @@
 import sys
 import os
-from pandas import pandas as pd
+import pandas as pd
 from openpyxl import load_workbook
 from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QFileDialog, QMessageBox
 
@@ -73,8 +73,8 @@ def ecrire_fichier_sortie(df_code, df_coef, nom_fichier, dossier_sortie):
             retour = []
 
         df_total = df_code[['Référentiel']]
-        df_total = df_total.assign(total=general)
-        df_total = df_total.assign(Total=general_sans_coef)
+        df_total = df_total.assign(total_heure=general)
+        df_total = df_total.assign(Total_groupe=general_sans_coef)
         df_total = pd.concat([df_total, pd.DataFrame([{"Référentiel": "total", "total": generaltot}])], ignore_index=True)
         fichier_total_path = os.path.join(dossier_sortie, "fichier_total.xlsx")
         df_total.to_excel(fichier_total_path, index=False, sheet_name='Feuil1')
