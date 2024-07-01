@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Fichor Files</title>
+</head>
+<body>
+    <h1>Insert Fichor Files</h1>
+    
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file1">Choisisser le fichier Code étape :</label>
+        <input type="file" id="file1" name="file1" accept=".xlsx, .xls">
+        <br><br>
+        
+        <label for="file2">Choisisser le fichier de la Liste des Enseignant :</label>
+        <input type="file" id="file2" name="file2" accept=".xlsx, .xls">
+        <br><br>
+        
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
