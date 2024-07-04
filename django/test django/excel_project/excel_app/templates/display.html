@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Display Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Excel Data</h1>
+    <form method="post" action="{% url 'modify_data' %}">
+        {% csrf_token %}
+        <input type="hidden" name="df1_json" value="{{ df1_json }}">
+        <input type="hidden" name="df2_json" value="{{ df2_json }}">
+        <input type="hidden" name="file_path1" value="{{ file_path1 }}">
+        <input type="hidden" name="file_path2" value="{{ file_path2 }}">
+        <button type="submit">Modify Data</button>
+    </form>
+</body>
+</html>

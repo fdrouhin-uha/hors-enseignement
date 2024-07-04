@@ -1,8 +1,8 @@
 """
-URL configuration for mysite project.
+URL configuration for excel_project project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.2/topics/http/urls/
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from excel_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.upload_files, name='upload_files'),
+    path('modify/', views.modify_data, name='modify_data'),
+    path('save/', views.save_changes, name='save_changes'),
+    path('download_files/', views.download_files, name='download_files'),
 ]

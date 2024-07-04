@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modify Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Edit Excel Data</h1>
+    <form method="post" action="{% url 'save_changes' %}">
+        {% csrf_token %}
+        <input type="hidden" name="df1_json" value="{{ df1_json }}">
+        <input type="hidden" name="df2_json" value="{{ df2_json }}">
+        <input type="hidden" name="updated_data1" id="updated_data1">
+        <input type="hidden" name="updated_data2" id="updated_data2">
+        <input type="hidden" name="file_path1" value="{{ file_path1 }}">
+        <input type="hidden" name="file_path2" value="{{ file_path2 }}">
+        <div>
+            <h2>File 1</h2>
+            <div id="table-container1">
+                {{ df1_html|safe }}
+            </div>
+        </div>
+        <div>
+            <h2>File 2</h2>
+            <div id="table-container2">
+                {{ df2_html|safe }}
+            </div>
+        </div>
+        <button type="submit" onclick="updateData()">Save Changes</button>
+        <button type="button" onclick="window.location.href='/'">Back to Upload Page</button>
+    </form>
+    <script>
+        $(document).ready(function() {
+            // Rendre toutes les cellules des tables éditables
+            $("#table-container1 td, #table-container2 td").attr("contenteditable", "true");
+        });
+    
+        function updateData() {
+            var updatedData1 = [];
+            var updatedData2 = [];
+
+            // Extraire et ajouter les en-têtes de la première table, en excluant les cellules vides
+            var headers1 = $("#table-container1 th").map(function() {
+                var text = $(this).text().trim();
+                return text.length > 0 ? text : null; // Retourne le texte si non vide, sinon null
+            }).get().filter(function(header) { return header != null; }); // Filtre pour exclure les valeurs null
+        
+            if (headers1.length > 0) {
+                updatedData1.push(headers1);
+            }
+
+            // Collecter les données de la première table, y compris les en-têtes
+            $("#table-container1 tr").each(function() {
+                var rowData = [];
+                $(this).find('td').each(function() {
+                    rowData.push($(this).text().trim());
+                });
+                if (rowData.length > 0) {
+                    updatedData1.push(rowData);
+                }
+            });
+        
+            // Répétez le processus pour la deuxième table, en excluant les cellules vides des en-têtes
+            var headers2 = $("#table-container2 th").map(function() {
+                var text = $(this).text().trim();
+                return text.length > 0 ? text : null; // Retourne le texte si non vide, sinon null
+            }).get().filter(function(header) { return header != null; }); // Filtre pour exclure les valeurs null
+        
+            if (headers2.length > 0) {
+                updatedData2.push(headers2);
+            }
+
+            // Répétez le processus de collecte des données pour la deuxième table
+            $("#table-container2 tr").each(function() {
+                var rowData = [];
+                $(this).find('td').each(function() {
+                    rowData.push($(this).text().trim());
+                });
+                if (rowData.length > 0) {
+                    updatedData2.push(rowData);
+                }
+            });
+        
+            // Convertir les tableaux en JSON et les affecter aux champs cachés du formulaire
+            $('#updated_data1').val(JSON.stringify(updatedData1));
+            $('#updated_data2').val(JSON.stringify(updatedData2));
+        }
+    </script>
+</body>
+</html>
